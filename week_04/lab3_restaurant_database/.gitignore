@@ -1,2 +1,3 @@
 node_modules/
-.idea/
+.idea
+lab3_restaurant_database/config/.env
