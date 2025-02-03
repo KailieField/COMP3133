@@ -9,8 +9,8 @@ exports.getAllRestaurants = async(req, res) => {
         res.json(restaurants);
 
     }catch(error){
-
-        res.status(500).json("----- [ ERROR ]: ", { message: error.message });
+        console.error("Error fetching restaurants", error);
+        res.status(500).json({ message: error.message });
     }
 };
 
@@ -18,8 +18,8 @@ exports.getAllRestaurants = async(req, res) => {
 exports.getByCuisine = async(req, res) => {
     try{
 
-        const { cuisine } = req.params;
-        const restaurants = await Restaurant.find({ cuisine });
+        const cuisineType = req.query.type;
+        const restaurants = await Restaurant.find({ cuisine:cuisineType });
         res.json(restaurants);
 
     }catch(error){
@@ -40,7 +40,7 @@ exports.getSortedRestaurants = async(req, res) => {
         }
 
         const sortOrder = sortBy === 'ASC' ? 1 : -1;
-        const restaurants = await Restaurant.find({}, "restaurant_id name cuisine city").sort({ restaurantid : sortOrder });
+        const restaurants = await Restaurant.find({}, "restaurant_id name cuisine city").sort({ restaurant_id : sortOrder });
         res.json(restaurants);
 
     }catch(error){
