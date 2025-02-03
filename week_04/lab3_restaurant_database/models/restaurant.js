@@ -4,43 +4,19 @@ const RestaurantSchema = new mongoose.Schema({
 
     address: {
 
-        type: String
+        building: { type: String, default: null},
+        street: { type: String, required: null},
+        zipcode: { type: String, default: null}
     },
 
-    city: {
+    city: { type: String, required: true},
+    cuisine: { type: String, required: true},
+    name: { type: String, required: true},
+    restaurant_id: { type: String, required: true, unique: true}
 
-        type: String
-    },
-
-    cuisine: {
-
-        type: String
-    },
-
-    name: {
-
-        type: String
-    },
-
-    restaurant_id: {
-
-        type: String
-    },
-
-    
 });
 
-// ---- [ DECLARING VIRTUAL FIELDS ] ----
-
-
-
-// ---- [ CUSTOME SCHEMA METHODS ] ----
-
-// -- 1. Instance Method Declaration
-
-// -- 2. Static Method Declaration
-
-// ---- [ QUERY HELPERS ] ----
+// ---- [ MIDDLEWARE ] ----
 
 RestaurantSchema.pre('save', (next) => {
     console.log(" --- Before Save ---")
@@ -49,7 +25,7 @@ RestaurantSchema.pre('save', (next) => {
     if(!this.created) {
         this.created = now
     }
-    next()
+    next();
 });
 
 RestaurantSchema.pre('findOneAndUpdate', (next) => {
@@ -58,22 +34,6 @@ RestaurantSchema.pre('findOneAndUpdate', (next) => {
     this.updatedate = now
     console.log(this.updatedate)
     next()
-});
-
-RestaurantSchema.post('init', (doc) => {
-    console.log(' --- %s initialized from DB --- ', doc._id);
-});
-
-RestaurantSchema.post('validate', (doc) => {
-    console.log(' --- %s validated (not saved) --- ', doc._id);
-});
-
-RestaurantSchema.post('save', (doc) => {
-    console.log(' --- %s has been saved --- ', doc._id);
-});
-
-RestaurantSchema.post('remove', (doc) => {
-    console.log(' --- %s has been removed --- ', doc._id);
 });
 
 
