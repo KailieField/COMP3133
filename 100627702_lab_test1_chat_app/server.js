@@ -21,7 +21,7 @@ mongoose.connect(process.env.DB_CONNECT)
 .then(() => console.log('--- [ MONGO DATABASE CONNECTED ] ---'))
 .catch(err => console.log('--- [ MONGO DATABASE CONNECTION ERROR ]: ', err));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 // --- [ PREDEFINED ROOM LIST ] ---
 const roomList = ['DevOps', 'Cloud Computing', 'Covid19', 'Sports', 'nodeJS'];
@@ -58,4 +58,4 @@ io.on('connection', (socket) => {
 });
 
 
-server.listen(PORT, () => console.log(`--- [ SERVER CONNECTED ON ${PORT} ] ---`));
+server.listen(process.env.PORT, () => console.log(`--- [ SERVER CONNECTED ON ${PORT} ] ---`));
