@@ -63,18 +63,18 @@
             // --- sending message to sever ---
             socket.emit('chatLog', { room: chosenRoom, chatMessage: message, user: username });
 
-            // --- clear textbox ---
-            document.getElementById('message'.value = '');
+            // --- clearing textbox ---
+            document.getElementById('message').value = '';
         }
 
         // --- incoming message ---
         socket.on('message', (data) => {
-            document.getElementById('message').innerHTML += `<p><strong>${data.user}: </strong> ${data.message}</p>`;
+            document.getElementById('messages').innerHTML += `<p><strong>${data.user}: </strong> ${data.message}</p>`;
     
         });
 
         function typing() {
-            socket.emit('isTyping', {user: username, room: chosenRoom});
+            socket.emit('isTyping', { user: username, room: chosenRoom} );
         }
 
         function stopTyping(){
