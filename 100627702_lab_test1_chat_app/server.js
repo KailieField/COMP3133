@@ -20,15 +20,26 @@ const io = socketIo(server);
 app.use(express.json());
 app.use(cors());
 
-// --- [ SERVING STATIC FILES ] ---
-app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/api/auth', authenticationRoute);
 app.use('/api/chat', chatTraffic);
 
-// --- [ SERVING INDEX ] ---
+// --- [ SERVING STATIC FILES ] ---
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+// -- Login View --
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+});
+
+// -- Sigup View --
+app.get('/signup', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'signup.html'));
+});
+
+// -- Chat Page --
+app.get('/chat', (req, res) => {
+    res.sendFile(path.join(__dirname), 'views', 'chatTraffic.html');
 });
 
 
