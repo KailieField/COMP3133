@@ -4,3 +4,4 @@ echo "week_01/" >> .gitignore
 
 node_modules/
 .idea
+.env
