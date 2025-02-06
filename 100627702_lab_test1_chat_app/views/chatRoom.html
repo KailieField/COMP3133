@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHAT ROOM | LAB TEST 1 | KAILIE FIELD</title>
+</head>
+<body>
+    <h1>CHAT ROOM</h1>
+
+    <input type="text" id="room" placeholder="Enter Chat Room Name">
+    <button onClick="enterChat()">Enter Chat</button>
+
+    <div id="chatWindow">
+        <input type="text" id="message" placeholder="Start Typing...">
+        <button onClick="sendMessage()">Send</button>
+    </div>
+
+    <div id="messages"></div>
+
+    <p><a href="/" onClick="logout()">Logout</a></p>
+
+    <script>
+
+        const socket = io();
+        let chosenRoom = "";
+        let username = localStorage.getItem("username");
+
+        function enterChat() {
+            chosenRoom = document.getElementById("room").value;
+            if(!chosenRoom) {
+                alert('You must enter a room name');
+                return;
+            }
+            socket.emit("enterChat", chosenRoom);
+        }
+
+        function sendMessage() {
+            const message = document.getElementById("message").value;
+            if(!message) {
+                alert("text field can't be empty");
+                return;
+            }
+            socket.emit("chatLog", { room: chosenRoom, chatMessage: message, user: "User" });
+
+            document.getElementById("message").value = "";
+        }
+        socket.on("message", (data) => {
+            document.getElementById("messages").innerHTML += `<p><strong>${data.user}:</strong> ${data.chatMessage}</p>`;
+        });
+
+        function logout() {
+            localStorage.removeItem("token");
+            window.location.href="/";
+        }
+    </script>
+    
+</body>
+</html>

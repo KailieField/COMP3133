@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // -- Login View --
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+    res.sendFile(path.join(__dirname, 'views', 'login.html'));
 });
 
 // -- Sigup View --
@@ -38,8 +38,8 @@ app.get('/signup', (req, res) => {
 });
 
 // -- Chat Page --
-app.get('/chat', (req, res) => {
-    res.sendFile(path.join(__dirname), 'views', 'chatTraffic.html');
+app.get('/chatRoom', (req, res) => {
+    res.sendFile(path.join(__dirname), 'views', 'chatRoom.html');
 });
 
 
@@ -98,7 +98,7 @@ io.on('connection', (socket) => {
     })
 
         // --- MESSAGING: Private Message ---
-    socket.io('PrivateMessage', async({ from_user, to_user, message}) =>{
+    socket.on('PrivateMessage', async({ from_user, to_user, message}) =>{
 
         try {
         // -- save message in DB --
