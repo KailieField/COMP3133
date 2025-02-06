@@ -24,7 +24,7 @@ app.use('/api/auth', authenticationRoute);
 app.use('/api/chat', chatTraffic);
 
 // --- [ SERVING STATIC FILES ] ---
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 
 
 // -- Login View --
