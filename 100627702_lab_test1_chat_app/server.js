@@ -4,8 +4,13 @@ const http = require('http');
 const express = require('express');
 const mongoose = require('mongoose');
 const socketIo = require('socket.io')
-const authenticRoutes = require('./routes/auth');
 const path = require('path');
+
+// --- [ ROUTES ] ---
+const authenticationRoute = require('./routes/auth');
+const chatTraffic = require('./routes/chatTraffic');
+const GroupMessage = require('./models/GroupMessage');
+const PrivateMessage = require('./models/PrivateMessage');
 
 
 const app = express();
@@ -18,7 +23,8 @@ app.use(cors());
 // --- [ SERVING STATIC FILES ] ---
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/auth', authenticRoutes);
+app.use('/api/auth', authenticationRoute);
+app.use('/api/chat', chatTraffic);
 
 // --- [ SERVING INDEX ] ---
 app.get('/', (req, res) => {
@@ -34,7 +40,7 @@ mongoose.connect(process.env.DB_CONNECT)
 const PORT = process.env.PORT || 3000;
 
 // --- [ PREDEFINED ROOM LIST ] ---
-const roomList = ['DevOps', 'Cloud Computing', 'Covid19', 'Sports', 'nodeJS'];
+const roomList = ['devOps', 'cloud computing', 'covid19', 'sports', 'nodeJS'];
 
 // --- [ STORING CONNECTED USER FOR STATUS ] ---
 let users = {};
@@ -62,11 +68,46 @@ io.on('connection', (socket) => {
         }
     });
 
-    // --- Messaging ---
-    socket.on('chatLog', ({ room, chatMessage, user }) => {
+    // --- MESSAGING: Group Message ---
+    socket.on('chatLog', async ({ room, chatMessage, user}) => {
+        try{
+            const newMessage = new GroupMessage({
+                from_user: user,
+                room: room,
+                message: chatMessage
+            });
 
-        io.to(room).emit('message', { user, chatMessage });
+            await newMessage.save();
 
+            io.to(room).emit('message', { user, chatMessage });
+        } catch (err) {
+
+            console.error("--- [ ERROR SAVING GROUP MESSAGE ]: ", err.message);
+        }
+    })
+
+        // --- MESSAGING: Private Message ---
+    socket.io('PrivateMessage', async({ from_user, to_user, message}) =>{
+
+        try {
+        // -- save message in DB --
+        const newMessage = new PrivateMessage({
+            from_user,
+            to_user,
+            message
+        });
+
+        await newMessage.save();
+
+        // -- private send --
+        io.to(users[users]).emit('privateMessage', { from_user, message });
+
+        }catch (err) {
+
+            console.error("--- [ ERROR SAVING PRIVATE MESSAGE ]: ", err.message);
+
+        }
+    
     });
 
     //--- Exiting Chat ---
