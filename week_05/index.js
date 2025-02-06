@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const { buildSchema } = require('graphql')
@@ -92,11 +93,12 @@ const rootResolver = {
 
  app.use("/graphql", graphqlHttp)
 
+ const DB_CONNECTION = process.env.DB_CONNECTION;
+
 // --- CONNECTING TO DB ---
 const connectDB = async() => {
     try{
         console.log(`Attempting to connect to DB`);
-        const DB_CONNECTION = `mongodb+srv://kailiefield:COMP3133@cluster0.fru65.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 
         mongoose.connect(DB_CONNECTION) 
         .then( () => {
