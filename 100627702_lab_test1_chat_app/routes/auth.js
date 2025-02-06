@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const webToken = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 
 const User = require('../models/User');
 
@@ -25,13 +25,16 @@ router.post('/signup', async (req, res) => {
 
         await newUser.save();
         res.status(201).json({ message: ' -- REGISTERED NEW USER --' });
+
     }catch (err) {
+        console.error("--- [ SIGN UP ERROR ] ---");
         res.status(500).json({ error: '--- [ SERVER ERROR ]: ', err });
+
     }
 });
 
 // --- [ LOGIN ROUTE ] ---
-router.post('/login', async(rq, res) => {
+router.post('/login', async(req, res) => {
     try{
 
         const { username, password } = req.body;
@@ -48,15 +51,16 @@ router.post('/login', async(rq, res) => {
             res.status(400).json({ error: '-- PASSWORD IS INVALID --' });
         }
 
+        // -- JWT --
         if(!process.env.JWT_SECRET){
-            return res.status(400).json({ error: "--- [ SERVER ERROR ]: JWT_SECRET MISSING "});
+            return res.status(500).json({ error: "--- [ SERVER ERROR ]: JWT_SECRET MISSING "});
         }
 
         // --- generating token ---
-        const token = webToken.sign({ id: user._id}, process.env.JWT_SECRET, {expiresIn: '1h' });
+        const token = jwt.sign({ id: user._id}, process.env.JWT_SECRET, {expiresIn: '1h' });
         res.json({ token, username: user.username });
     }catch (err) {
-        res.status(500).json({ error: '--- [ SERVER ERROR ]: ', err});
+        res.status(500).json({ error: '--- [ SERVER ERROR ]: ', details: err.message});
     }
 });
 
