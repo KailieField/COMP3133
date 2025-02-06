@@ -39,8 +39,8 @@ const roomList = ['DevOps', 'Cloud Computing', 'Covid19', 'Sports', 'nodeJS'];
 // --- [ STORING CONNECTED USER FOR STATUS ] ---
 let users = {};
 
-// --- [ USER ONLINE ] ---
-io.on('online', (socket) => {
+// --- [ SOCKET CONNECTION ] ---
+io.on('connection', (socket) => {
     console.log('--- [ USER IS ONLINE ] ---');
 
     socket.on('userOnline', (username) => {
@@ -101,6 +101,10 @@ io.on('online', (socket) => {
         io.emit('statusUpdate', users);
         console.log('User went offline');
 
+    });
+
+    socket.on('disconnect', () => {
+        console.log('--- [ USER DISCONNECTED ] ---');
     });
 });
 

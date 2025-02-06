@@ -8,6 +8,23 @@ const User = require('../models/User');
 const router = express.Router();
 
 
+// --- [ JWT MIDDLEWARE ]---
+const authentication = (req, res, next) => {
+    const token = req.header('Authorization');
+
+    if(!token) {
+        return res.status(401).json({ error: '--- ACCESS DENIED ---' });
+    }
+    
+    try {
+        const verified = jwt.verify(token.replace("Bearer ", ""), process.env.JWT_SECRET);
+        req.user = verified;
+        next();
+    }catch (err) {
+        res.status(400).json({ error: '-- INVALID TOKEn --'});
+    }
+};
+
 // --- [ SIGN UP ROUTE ] ---
 router.post('/signup', async (req, res) => {
     try{
@@ -42,13 +59,13 @@ router.post('/login', async(req, res) => {
         // -- finding user in MongoDB --
         const user = await User.findOne({ username });
         if(!user) {
-            res.status(400).json({ error: ' -- USER DOESNT EXIST --' });
+            return res.status(400).json({ error: ' -- USER DOESNT EXIST --' });
         }
 
         //-- checking password --
         const passwordMatched = await bcrypt.compare(password, user.password);
         if(!passwordMatched) {
-            res.status(400).json({ error: '-- PASSWORD IS INVALID --' });
+            return res.status(400).json({ error: '-- PASSWORD IS INVALID --' });
         }
 
         // -- JWT --
@@ -59,6 +76,7 @@ router.post('/login', async(req, res) => {
         // --- generating token ---
         const token = jwt.sign({ id: user._id}, process.env.JWT_SECRET, {expiresIn: '1h' });
         res.json({ token, username: user.username });
+
     }catch (err) {
         res.status(500).json({ error: '--- [ SERVER ERROR ]: ', details: err.message});
     }
