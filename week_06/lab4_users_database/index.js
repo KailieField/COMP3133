@@ -114,17 +114,17 @@ const connectDB = async () => {
 
         .then(() => {
 
-            console.log(`--- [ CONNECTED TO MONGODB ] ---`)
+            console.log(`--- [ CONNECTED TO DB ] ---`)
 
         })
         .catch((error) => {
 
-            console.error(`--- [ ERROR CONNECTIN TO DB ]: ${JSON.stringify(error)}`)
+            console.error(`--- [ ERROR CONNECTING TO DB ]: ${JSON.stringify(error)}`)
 
         });
     } catch (error) {
 
-        console.error(`--- UNABLE TO CONNECT TO DB: ${error.message}`)
+        console.error(`--- [ UNABLE TO CONNECT TO DB ]: ${error.message}`)
 
     }
 };
