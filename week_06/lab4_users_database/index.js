@@ -83,7 +83,7 @@ const rootResolver = {
             await newUser.save();
             return newUser;
 
-        }catch (error) {
+        } catch (error) {
 
             throw new Error(error.message);
 
