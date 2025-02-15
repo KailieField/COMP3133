@@ -1,4 +1,5 @@
 require('dotenv').config()
+const fs = require('fs');
 const express = require('express')
 const mongoose = require('mongoose')
 const { buildSchema } = require('graphql')
@@ -14,34 +15,47 @@ const gqlSchema = buildSchema(
     `
     type Query {
 
-       user(email: String!): User
        users: [User]
+       user: (email, String): User
 
     }
 
     type Mutation {
-        addUser(
 
-            username: String,
-            email: String,
-            city: String,
-            website: String,
-            zip_code: String,
-            phone: String
+        loadUserData: String
 
-        ): User
     }
 
+    type Address {
+
+        street: String
+        suit: String
+        city: String
+        zipcode: String
+        geo: Geo
+
+    }
+    
+    type Geo {
+
+        lat: String
+        lng: String
+
+    }
+    
     type User {
 
+        name: String
         username: String
         email: String
-        city: String
-        website: String
-        zip_code: String
+        address: String
         phone: String
+        website: String
+        company: String
 
     }
+
+
     `
 );
 
@@ -49,43 +63,48 @@ const gqlSchema = buildSchema(
 // --- [ ROOT RESOLVER ] ---
 const rootResolver = {
 
-    // -- single user fetch
+    //--- fetch single user
     user: async ({ email }) => {
-
-        const user = await UserModel.findOne({ email });
-        return user;
-
-    },
-
-    // -- fetch all users
-    users: async () => {
-
-        const users = await UserModel.findOne({});
-        return users;
-    },
-    // -- add new user
-    addUser: async (args) => {
-
-        const { username, email, city, website, zip_code, phone } = args;
-        const newUser = new UserModel({
-
-            username,
-            email,
-            city,
-            website,
-            zip_code,
-            phone,
-
-        });
 
         try {
 
-            await newUser.save();
-            return newUser;
+            const user = await UserModel.findOne({ email });
+            if(!user) throw new Error ("--- USER NOT FOUND ---");
+            return users;
 
         } catch (error) {
 
             throw new Error(error.message);
+        }
+    },
+
+    //--- fetch all users
+    users: async () => {
+
+        return await UserModel.findOne({});
+
+    },
+
+    //-- loading UserData.json file data into database
+    loadUserData: async () => {
+
+        const data = JSON.parse(fs.readFileSync("UserData.json", "utf8"));
+
+        try {
+
+            const userExists = await UserModel.findOne({});
+            if (userExists.length === 0) {
+                await UserModel.insertMany(data) //<--- only inser users if they database is empty
+                return "--- Users Loaded Into Database ---";
+
+            } else {
+
+                return " --- Users Already Loaded into Database ---"
+            }
+        } catch (error) {
+
+            console.error("--- Error Loading: ", error.message);
+            throw new Error("---[ FAILURE LOADING USERS TO DATABASE ] ---");
 
         }
     },
