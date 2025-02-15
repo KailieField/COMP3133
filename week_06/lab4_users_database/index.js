@@ -3,7 +3,7 @@ const fs = require('fs');
 const express = require('express')
 const mongoose = require('mongoose')
 const { buildSchema } = require('graphql')
-const { graphqlHTTP, graphqlHTTP } = require('express-graphql')
+const { graphqlHTTP } = require('express-graphql')
 const UserModel = require('./models/User')
 
 const app = express()
@@ -94,7 +94,7 @@ const rootResolver = {
 
             const userExists = await UserModel.findOne({});
             if (userExists.length === 0) {
-                await UserModel.insertMany(data) //<--- only inser users if they database is empty
+                await UserModel.insertMany(data) //<--- only insert users if they database is empty
                 return "--- Users Loaded Into Database ---";
 
             } else {
