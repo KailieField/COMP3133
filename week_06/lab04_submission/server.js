@@ -2,13 +2,9 @@ require('dotenv').config()
 const fs = require('fs')
 const express = require('express')
 const mongoose = require('mongoose')
-const bodyparser = require('body-parser')
 const User = require('./models/User')
 
 const app = express()
-
-
-app.use(bodyParser.json())
 
 const PORT = process.env.PORT || 8081
 const DB_CONNECT = process.env.DB_CONNECT
@@ -30,7 +26,7 @@ app.post('/users', async(req, res) => {
     }catch (error) {
 
         res.status(400).json({ error: error.message })
-        
+
     }
 });
 
