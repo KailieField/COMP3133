@@ -56,6 +56,25 @@ const UserSchema = new mongoose.Schema({
             match: [ /^\d{5}-\d{4}$/, 'FORMAT DDDDD-DDDD'],
 
         },
+        
+        geo: {
+
+            lat: {
+
+                type: String,
+                required: [ true, 'LATITUDE IS MANDATORY.'],
+                match: [ /^-?\d+(\.\d+)?$/, 'MUST BE A VALID NUMBER' ],
+
+            },
+            lng: {
+
+                type: String,
+                required: [ true, 'LONGITUDE IS MANDATORY.'],
+                match: [ /^-?\d+(\.\d+)?$/, 'MUST BE A VALID NUMBER.' ],
+
+            },
+
+        },
 
     },
 
@@ -75,7 +94,31 @@ const UserSchema = new mongoose.Schema({
 
     },
 
+    company: {
 
+        name: {
+
+        type: String, 
+        required: [ true, 'COMPANY IS MANDATORY.' ],
+
+        },
+
+        catchPhrase: {
+
+            type: String,
+            required: [ true, 'CATCH PHRASE IS MANDATORY.' ],
+             
+        },
+
+
+        bs: {
+
+            type: String,
+            required: [ true, 'BS IS MANDATORY.' ],
+        },
+
+    },
+    
 });
 
 module.exports = mongoose.model('User', UserSchema);
