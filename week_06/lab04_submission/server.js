@@ -23,13 +23,14 @@ app.post('/users', async(req, res) => {
 
     try {
 
-        const userData = JSON.parse(fs.readFileSync('UserData.json', 'utf-8' ))
-        const users = await User.insertMany(userData, { ordered: false })
-        res.status(201).json({ message: 'USERS COLLECTED LOADED', users })
+        const user = new User(req.body)
+        await user.save()
+        res.status(201).json({ message: 'USER ADDED TO DB', user })
 
     }catch (error) {
 
         res.status(400).json({ error: error.message })
+        
     }
 });
 
