@@ -12,7 +12,8 @@ const EmployeeSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     gender: {
         type: String,
@@ -25,7 +26,8 @@ const EmployeeSchema = new mongoose.Schema({
     },
     salary: {
         type: Number,
-        required: true
+        required: true,
+        min: 1000
     },
     date_of_joining: {
         type: Date,
