@@ -6,6 +6,8 @@ const User = require('./models/User')
 
 const app = express()
 
+app.use(express.json())
+
 const PORT = process.env.PORT || 8081
 const DB_CONNECT = process.env.DB_CONNECT
 
@@ -17,6 +19,8 @@ mongoose.connect(DB_CONNECT)
 
 app.post('/users', async(req, res) => {
 
+    console.log('Incoming Body: ', req.body)
+
     try {
 
         const user = new User(req.body)
@@ -25,6 +29,7 @@ app.post('/users', async(req, res) => {
 
     }catch (error) {
 
+        console.error('VALIDATION ERROR: ', error.message)
         res.status(400).json({ error: error.message })
 
     }
