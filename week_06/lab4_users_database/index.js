@@ -10,13 +10,12 @@ const app = express()
 
 
 // --- [ SCHEMA ] ---
-const gqlSchema = buildSchema(
+const gqlSchema = buildSchema(`
 
-    `
     type Query {
 
        users: [User]
-       user: (email, String): User
+       user(email: String): User
 
     }
 
@@ -29,7 +28,7 @@ const gqlSchema = buildSchema(
     type Address {
 
         street: String
-        suit: String
+        suite: String
         city: String
         zipcode: String
         geo: Geo
@@ -40,6 +39,14 @@ const gqlSchema = buildSchema(
 
         lat: String
         lng: String
+
+    }
+
+    type Company {
+
+        name: String
+        catchPhrase: String
+        bs: String
 
     }
     
@@ -56,8 +63,7 @@ const gqlSchema = buildSchema(
     }
 
 
-    `
-);
+`);
 
 
 // --- [ ROOT RESOLVER ] ---
@@ -121,7 +127,7 @@ const graphqlHttp = graphqlHTTP({
 });
 
 app.use("/graphql", graphqlHttp);
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 8081
 
 // --- [ CONENCTION TO DB ] ---
 const DB_CONNECTION = process.env.DB_CONNECTION;
@@ -152,7 +158,7 @@ const connectDB = async () => {
 app.listen(PORT, () => {
 
     console.log(`---- [ SERVER RUNNING ON PORT : ${PORT} ] ----`)
-    console.log("http://localhost:4000/graphql")
+    console.log("http://localhost:8081/graphql")
     connectDB()
 
 });
