@@ -4,6 +4,9 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 const Employee = require('../models/Employee')
 
+
+
+// -- GRAPHQL SCHEMA BUILDING --
 const graphqlSchema = buildSchema(`
 
     type User {
@@ -88,11 +91,11 @@ const queryHandlers = {
 
         const user = await User.findOne({ username })
         
-        if(!user) throw new Error('USER CAN NOT BE FOUND.')
+        if(!user) throw new Error('USER CANNOT BE FOUND IN DATABASE.')
 
         const isMatch = await bcrypt.compare(password, user.password)
 
-        if(!isMatch) throw new Error('INVALID CREDENTIALS.')
+        if(!isMatch) throw new Error('INVALID CREDENTIALS PROVIDED.')
 
         return jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' })
     },
@@ -100,7 +103,7 @@ const queryHandlers = {
     signup: async ({ username, email, password }) => {
 
         if (!username || username.trim().length < 4){
-            throw new Error("USERNAME MUST BE 4 CHARACTERS.")
+            throw new Error("USERNAME MUST BE 4 CHARS IN LENGTH.")
         }
 
         if (!email || !email.includes("@") || !email.includes(".")) {
@@ -147,19 +150,19 @@ const queryHandlers = {
     addEmployee: async (args) => {
         const { first_name, last_name, email, gender, designation, salary, date_of_joining, department, employee_photo } = args
         if(!first_name || first_name.trim().length < 1){
-            throw new Error("FIRST NAME MUST BE LONGER THAN 1 CHARS.")
+            throw new Error("FIRST NAME MUST BE LONGER THAN 1 CHAR.")
         }
 
         if(!last_name || last_name.trim().length < 1){
-            throw new Error("FIRST NAME MUST BE LONGER THAN 1 CHARS.")
+            throw new Error("LAST NAME MUST BE LONGER THAN 1 CHAR.")
         }
 
         if(!designation || designation.trim().length < 1){
-            throw new Error("DESIGNATION MUST BE LONGER THAN 1 CHARS.")
+            throw new Error("DESIGNATION MUST BE LONGER THAN 1 CHAR.")
         }
 
         if(!department || department.trim().length < 1){
-            throw new Error("DEPARTMENT MUST BE LONGER THAN 1 CHARS.")
+            throw new Error("DEPARTMENT MUST BE LONGER THAN 1 CHAR.")
         }
 
         if(!salary || salary < 1000){
@@ -168,12 +171,12 @@ const queryHandlers = {
 
         if (email){
             if (!email.includes("@") || !email.includes(".")){
-                throw new Error("INVALID. MUST HAVE @")
+                throw new Error("INVALID FORMAT.")
             }
 
             const employeeExists = await Employee.findOne({ email });
             if (employeeExists){
-                throw new Error("EMPLOYEE EXISTS.")
+                throw new Error("EMPLOYEE ALREADY EXISTS.")
             }
         }
 
@@ -196,7 +199,7 @@ const queryHandlers = {
     updateEmployeeByEid: async ({ eid, ...args }) => {
 
         const employee = await Employee.findById(eid)
-        if (!employee) throw new Error("EMPLOYEE CAN NOT BE FOUND.")
+        if (!employee) throw new Error("EMPLOYEE CANNOT BE FOUND IN DATABASE.")
 
         if (args.first_name && args.first_name.trim().length < 1){
             throw new Error("FIRST NAME MUST BE LONGER THAN 2 CHARS.")
@@ -208,7 +211,7 @@ const queryHandlers = {
 
         if (args.email){
             if (!args.email.includes("@") || !args.email.includes(".")){
-                throw new Error("INVALID. MUST HAVE @")
+                throw new Error("INVALID FORMAT.")
             }
         }
 
@@ -224,7 +227,7 @@ const queryHandlers = {
 
         const employee = await Employee.findById(eid)
         if(!employee){
-            throw new Error("EMPLOYEE NOT CAN NOT BE FOUND.")
+            throw new Error("EMPLOYEE NOT CANNOT BE FOUND IN DATABASE.")
         }
 
         await Employee.findByIdAndDelete(eid);
