@@ -23,7 +23,7 @@ const graphqlSchema = buildSchema(`
         last_name: String!
         email: String
         gender: String
-        destignation: String!
+        designation: String!
         salary: Float!
         date_of_joinig: String!
         department: String!
@@ -58,14 +58,14 @@ const graphqlSchema = buildSchema(`
         ): Employee
         updateEmployeeByEid(
             eid: ID!,
-            first_name: String!,
-            last_name: String!,
+            first_name: String,
+            last_name: String,
             email: String,
             gender: String,
-            designation: String!,
-            salary: Float!,
-            date_of_joining: String!,
-            department: String!,
+            designation: String,
+            salary: Float,
+            date_of_joining: String,
+            department: String,
             employee_photo: String       
         ): Employee
         deleteEmployeeByEid(eid: ID!): String
@@ -126,7 +126,11 @@ const queryHandlers = {
 
     getAllEmployees: async () => await Employee.find(),
 
-    searchEmployeesByEid: async ({ eid }) => await Employee.findById(eid ),
+    searchEmployeeByEid: async ({ eid }) => {
+        const employee = await Employee.findById(eid)
+        if (!employee) throw new Error("EMPLOYEE NOT FOUND IN DATABASE.")
+        return employee
+    },
 
     searchEmployees: async ({ designation, department }) => {
 
@@ -141,17 +145,13 @@ const queryHandlers = {
     },
 
     addEmployee: async (args) => {
-
+        const { first_name, last_name, email, gender, designation, salary, date_of_joining, department, employee_photo } = args
         if(!first_name || first_name.trim().length < 1){
             throw new Error("FIRST NAME MUST BE LONGER THAN 1 CHARS.")
         }
 
         if(!last_name || last_name.trim().length < 1){
             throw new Error("FIRST NAME MUST BE LONGER THAN 1 CHARS.")
-        }
-
-        if(!last_name || last_name.trim().length < 1){
-            throw new Error("LAST NAME MUST BE LONGER THAN 1 CHARS.")
         }
 
         if(!designation || designation.trim().length < 1){
@@ -177,7 +177,17 @@ const queryHandlers = {
             }
         }
 
-        const employee = new Employee(args)
+        const employee = new Employee({
+            first_name,
+            last_name,
+            email,
+            gender,
+            designation,
+            salary,
+            date_of_joining,
+            department,
+            employee_photo
+    });
         
         return await employee.save()
 
@@ -206,17 +216,13 @@ const queryHandlers = {
             throw new Error("SALARY MUST BE > 1000.")
         }
 
-        if(args.date_of_joining && isNaN(Date.parse(args.date_of_joining))){
-            throw new Error("INVALIDE DATE.")
-        }
-
         return await Employee.findByIdAndUpdate(eid, args, { new: true });
 
     },
 
     deleteEmployeeByEid: async ({ eid }) => {
 
-        const employee = await Employee.findByid(eid)
+        const employee = await Employee.findById(eid)
         if(!employee){
             throw new Error("EMPLOYEE NOT CAN NOT BE FOUND.")
         }
