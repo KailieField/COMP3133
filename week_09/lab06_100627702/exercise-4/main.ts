@@ -1,4 +1,5 @@
-import { Customer } from './customer'
+import { Customer } from "./customer";
 
-let customer = new Customer("Kailie", "Field");
+let customer = new Customer("Kailie", "Field", 35);
 customer.greeter();
+customer.GetAge();
