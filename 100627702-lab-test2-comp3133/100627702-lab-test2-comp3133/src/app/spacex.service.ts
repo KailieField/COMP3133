@@ -16,12 +16,12 @@ export class SpacexService {
 
   constructor(private http: HttpClient) { }
 
-  getLaunches(): Observable<Mission>{
-    return this.http.get<Mission>(this.apiUrl);
+  getLaunches(): Observable<Mission[]>{
+    return this.http.get<Mission[]>(this.apiUrl);
   }
 
-  getLaunchesByUrl(url: string): Observable<Mission> {
-    return this.http.get<Mission>(url);
+  getLaunchesByUrl(url: string): Observable<Mission[]> {
+    return this.http.get<Mission[]>(url);
   }
 
   getLaunchByFlightNumber(flightNumber: number): Observable<Mission> {
