@@ -30,3 +30,5 @@ export class HeroesComponent {
     this.selectedHero = hero;
   }
 }
+
+// './heroes.component.html',

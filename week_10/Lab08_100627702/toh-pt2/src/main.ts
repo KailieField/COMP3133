@@ -1,8 +1,7 @@
 import {bootstrapApplication, provideProtractorTestingSupport} from '@angular/platform-browser';
+import { HeroesComponent } from './app/heroes/heroes.component';
 
-import {AppComponent} from './app/app.component';
-
-bootstrapApplication(AppComponent, {
+bootstrapApplication(HeroesComponent, {
   providers: [provideProtractorTestingSupport()],
 });
 
