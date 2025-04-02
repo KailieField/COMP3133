@@ -1,1 +1,13 @@
-<p>missionlist works!</p>
+<h2>.::[ SPACEX MISSION LIST]::.</h2>
+<div *ngFor="let launch of launches" style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc">
+<img [src]="launch.links?.mission_patch_small" alt="Mission Patch" width="100">
+<h3>[No. {{ launch.flight_number}} ] :: {{ launch.mission_name }} ({{ launch.launch_year }})</h3>
+<p><strong>-- Details: </strong> {{ launch.details || '-- Details Unavaiable --' }}</p>
+<p><strong>-- Rocket: </strong>{{ launch.rocket?.rocket_name }} ({{ launch.rocket?.rocket_type }})</p>
+<p><strong>-----------------[ Links ]----------------- </strong></p>
+<ul>
+    <li *ngIf="launch.links?.article_link"><a [href]="launch.links.article_link" target="_blank">Article</a></li>
+    <li *ngIf="launch.links?.wikipedia"><a [href]="launch.links.wikipedia" target="_blank">Wikipedia</a></li>
+    <li *ngIf="launch.links?.video_link"><a [href]="launch.links.video_link" target="_blank">Video</a></li>
+</ul>
+</div>
