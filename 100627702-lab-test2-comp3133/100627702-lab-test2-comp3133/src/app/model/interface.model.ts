@@ -1,5 +1,5 @@
 
-export interface MissionStructure {
+export interface Mission{
 
     flight_number: number;
     mission_name: string;
@@ -14,7 +14,7 @@ export interface MissionStructure {
     };
 
     links: {
-        
+
         mission_patch_small: string;
         article_link: string;
         wikepedia: string;

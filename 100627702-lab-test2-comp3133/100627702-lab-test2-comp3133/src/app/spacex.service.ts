@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Mission } from './model/interface.model'
 
 
 @Injectable({
@@ -15,16 +16,16 @@ export class SpacexService {
 
   constructor(private http: HttpClient) { }
 
-  getLaunches(): Observable<any[]>{
-    return this.http.get<any[]>(this.apiUrl);
+  getLaunches(): Observable<Mission>{
+    return this.http.get<Mission>(this.apiUrl);
   }
 
-  getLaunchesByUrl(url: string): Observable<any[]> {
-    return this.http.get<any[]>(url);
+  getLaunchesByUrl(url: string): Observable<Mission> {
+    return this.http.get<Mission>(url);
   }
 
-  getLaunchByFlightNumber(flightNumber: number): Observable<any> {
-    const url = `https://api.spacexdata.com/v3/launches/${flightNumber}`;
-    return this.http.get<any>(url);
+  getLaunchByFlightNumber(flightNumber: number): Observable<Mission> {
+    const url = `${this.apiUrl}/${flightNumber}`; //https://api.spacexdata.com/v3/launches/${flightNumber}
+    return this.http.get<Mission>(url);
   }
 }
