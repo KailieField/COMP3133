@@ -1,7 +1,8 @@
 {   
     "version": 2,
     "builds": [
-        { "src": "angular.json", 
+        { 
+        "src": "angular.json", 
         "use": "@vercel/angular", 
         "config": {
             "distDir": "dist/100627702-lab-test2-comp3133"
@@ -14,7 +15,7 @@
 
         { 
             "src": "/(.*)", 
-            "dest": "/index/html" 
+            "dest": "/index.html" 
         }
     ]
 }
