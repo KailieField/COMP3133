@@ -1,20 +1,23 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgForOf, NgIf } from '@angular/common';
 import { SpacexService } from '../spacex.service';
+import { RouterModule } from '@angular/router';
+import { MissionfilterComponent } from '../missionfilter/missionfilter.component';
 
 @Component({
   selector: 'app-missionlist',
   standalone: true,
-  imports: [CommonModule, NgForOf, NgIf],
+  imports: [CommonModule, NgForOf, NgIf, RouterModule, MissionfilterComponent],
   templateUrl: './missionlist.component.html',
   styleUrls: ['./missionlist.component.css']
 })
 
-export class MissionlistComponent implements OnInit, OnChanges{
+export class MissionlistComponent implements OnInit {
 
   launches: any[] = [];
 
-  @Input() filteredYear: string='';
+  // @Input() filteredYear: string='';
+  filteredYear: string='';
 
   constructor(private spacexService: SpacexService){}
 
@@ -33,24 +36,41 @@ export class MissionlistComponent implements OnInit, OnChanges{
       });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  updateYearFromFilter(year: string): void {
+    this.filteredYear = year;
 
-    console.log('ngOnChanges triggered: ', changes);
-    
-      if (changes['filteredYear'] && this.filteredYear) {
-        const url = `https://api.spacexdata.com/v3/launches?launch_year=${this.filteredYear}`;
-        this.spacexService.getLaunchesByUrl(url).subscribe({
-
-          next: (data) => {
-            console.log(`LAUNCHES --- ${this.filteredYear}: `, data);
-            this.launches = data;
-          },
-          
-          error: (err) => {
-            console.error(`API CALL FOR ${this.filteredYear} FAILED: `, err);
-          }
-
-        });
+    const url = `https://api.spacexdata.com/v3/launches?launch_year=${this.filteredYear}`;
+    this.spacexService.getLaunchesByUrl(url).subscribe({
+      next: (data) => {
+        console.log(`LAUNCHES --- ${this.filteredYear}: `, data);
+        this.launches = data;
+      },
+      
+      error: (err) => {
+        console.error(`API CALL FOR ${this.filteredYear} FAILED: `, err);
       }
-    }
+    });
+  }
 }
+
+  // ngOnChanges(changes: SimpleChanges): void {
+
+  //   console.log('ngOnChanges triggered: ', changes);
+    
+  //     if (changes['filteredYear'] && this.filteredYear) {
+  //       const url = `https://api.spacexdata.com/v3/launches?launch_year=${this.filteredYear}`;
+  //       this.spacexService.getLaunchesByUrl(url).subscribe({
+
+  //         next: (data) => {
+  //           console.log(`LAUNCHES --- ${this.filteredYear}: `, data);
+  //           this.launches = data;
+  //         },
+          
+  //         error: (err) => {
+  //           console.error(`API CALL FOR ${this.filteredYear} FAILED: `, err);
+  //         }
+
+  //       });
+  //     }
+  //   }
+// }

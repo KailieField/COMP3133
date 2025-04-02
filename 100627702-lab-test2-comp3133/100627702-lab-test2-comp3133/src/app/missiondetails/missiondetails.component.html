@@ -1,1 +1,15 @@
-<p>missiondetails works!</p>
+<div *ngIf="mission">
+    <h2>:: [Mission No.{{ mission.flight_number }}] {{ mission.mission_name }} ::</h2>
+    <img [src]="mission.links?.mission_patch_small" alt="Mission Patch" class="patch-image"/>
+
+    <p><strong>-- Launch Year: </strong>{{ mission.launch_year }}</p>
+    <p><strong>-- Rocket: </strong>{{ mission.rocket?.rocket_name }} ({{ mission.rocket?.rocket_type }})</p>
+    <p><strong>-- Details: </strong>{{ mission.details || '-- Details Unavaiable --'}}</p>
+
+    <p><strong>-----------------[ Links ]----------------- </strong></p>
+        <ul>
+        <li *ngIf="mission.links?.article_link"><a [href]="mission.links.article_link" target="_blank">Article</a></li>
+        <li *ngIf="mission.links?.wikipedia"><a [href]="mission.links.wikipedia" target="_blank">Wikipedia</a></li>
+        <li *ngIf="mission.links?.video_link"><a [href]="mission.links.video_link" target="_blank">Video</a></li>
+        </ul>
+</div>

@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
-import { MissionlistComponent } from './missionlist/missionlist.component';
-import { MissionfilterComponent } from './missionfilter/missionfilter.component';
+// import { MissionlistComponent } from './missionlist/missionlist.component';
+// import { MissionfilterComponent } from './missionfilter/missionfilter.component';
+import { RouterModule } from '@angular/router';
+
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MissionlistComponent, MissionfilterComponent],
+  imports: [ RouterModule ], //MissionlistComponent, MissionfilterComponent,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
