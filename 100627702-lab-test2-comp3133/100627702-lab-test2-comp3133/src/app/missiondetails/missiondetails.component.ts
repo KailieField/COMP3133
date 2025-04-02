@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { SpacexService } from '../spacex.service';
+import { MaterialModule } from '../material/material.module';
 
 
 @Component({
