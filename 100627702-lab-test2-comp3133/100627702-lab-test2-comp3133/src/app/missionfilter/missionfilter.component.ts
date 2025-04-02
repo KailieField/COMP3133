@@ -6,7 +6,7 @@ import { MaterialModule } from '../material/material.module';
 @Component({
   selector: 'app-missionfilter',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MaterialModule],
   templateUrl: './missionfilter.component.html',
   styleUrls: ['./missionfilter.component.css']
 })

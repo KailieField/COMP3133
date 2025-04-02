@@ -1,2 +1,8 @@
-<input type="text" [(ngModel)]="filteredYear" placeholder="YYYY">
-<button (click)="filterMissionList()">filter</button>
+<mat-card>
+<mat-card-title>Search By Launch Year</mat-card-title>
+<mat-form-field appearance="fill">
+    <mat-label>-- input year --</mat-label>
+    <input matInput [(ngModel)]="filteredYear" placeholder="YYYY">
+</mat-form-field>
+    <button mat-raised-button color="primary" (click)="filterMissionList()">filter</button>
+</mat-card>

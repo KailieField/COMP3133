@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 
+
 @NgModule({
 
     exports: [
@@ -13,7 +14,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
         MatButtonModule,
         MatInputModule,
         MatFormFieldModule,
-        MatToolbarModule
+        MatToolbarModule,
+
     ]
 })
 
