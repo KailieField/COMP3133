@@ -1,5 +1,13 @@
 {
-    "rewrites": [
-        { "source": "/(.*)", "destination": "/"}
-    ]
+    "builds": [
+        { "src": "angular.json", "use": "@vercel/angular" }
+    ],
+
+
+    "routes": [
+
+        { "src": "/(.*)", "dest": "/index/html" }
+    ],
+
+    "outputDirectory": "dist/100627702-lab-test2-comp3133"
 }
