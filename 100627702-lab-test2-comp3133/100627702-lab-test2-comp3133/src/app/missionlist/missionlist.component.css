@@ -7,14 +7,6 @@ mat-card-tile a {
     border-color: cadetblue;
 }
 
-/* a:hover {
-    text-decoration: underline;
-} */
-
-/* ul {
-    padding-left: 20px;
-} */
-
 mat-grid-tile {
     display: flex;
 }
