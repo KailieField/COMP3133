@@ -1,19 +1,35 @@
-<app-missionfilter (inputYear)="updateYearFromFilter($event)"></app-missionfilter>
-<h2>.::[ SPACEX MISSION LIST]::.</h2>
-<div *ngFor="let launch of launches" style="margin-bottom: 20px; padding: 10px; border: 1px solid #ccc">
-<img [src]="launch.links?.mission_patch_small" alt="Mission Patch" class="patch-image">
 
-<h3>
-    <a [routerLink]="['/mission', launch.flight_number]">
-        [No. {{ launch.flight_number}} ] :: {{ launch.mission_name }} ({{ launch.launch_year }})
-    </a>
-</h3>
-<p><strong>-- Details: </strong> {{ launch.details || '-- Details Unavaiable --' }}</p>
-<p><strong>-- Rocket: </strong>{{ launch.rocket?.rocket_name }} ({{ launch.rocket?.rocket_type }})</p>
-<p><strong>-----------------[ Links ]----------------- </strong></p>
-<ul>
-    <li *ngIf="launch.links?.article_link"><a [href]="launch.links.article_link" target="_blank">Article</a></li>
-    <li *ngIf="launch.links?.wikipedia"><a [href]="launch.links.wikipedia" target="_blank">Wikipedia</a></li>
-    <li *ngIf="launch.links?.video_link"><a [href]="launch.links.video_link" target="_blank">Video</a></li>
-</ul>
-</div>
+<div style="
+padding: 0;
+margin: 0 auto;
+max-width: 1200px;"
+>
+<app-missionfilter (inputYear)="updateYearFromFilter($event)"></app-missionfilter>
+<h2 class="mat-headline">.::[ SPACEX MISSION LIST]::.</h2>
+
+<mat-grid-list cols="3" gutterSize="20px" rowHeight="2:5">
+    <mat-grid-tile *ngFor="let launch of launches">
+        <mat-card class="mission-card mat-elevation-z6">
+            <mat-card-header>
+                <mat-card-title>
+                <a [routerLink]="['/mission', launch.flight_number]">
+                    [No. {{ launch.flight_number}} ] :: {{ launch.mission_name }} ({{ launch.launch_year }})
+                </a>
+            </mat-card-title>
+            </mat-card-header>
+
+            <img mat-card-image [src]="launch.links?.mission_patch_small" alt="Mission Patch">
+
+            <mat-card-content>
+                <p><strong>-- Details: </strong> {{ launch.details || '-- Details Unavaiable --' }}</p>
+                <p><strong>-- Rocket: </strong>{{ launch.rocket?.rocket_name }} ({{ launch.rocket?.rocket_type }})</p>
+                <p><strong>-----------------[ Links ]----------------- </strong></p>
+                <ul>
+                    <li *ngIf="launch.links?.article_link"><a [href]="launch.links.article_link" target="_blank">Article</a></li>
+                    <li *ngIf="launch.links?.wikipedia"><a [href]="launch.links.wikipedia" target="_blank">Wikipedia</a></li>
+                    <li *ngIf="launch.links?.video_link"><a [href]="launch.links.video_link" target="_blank">Video</a></li>
+                </ul>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+</mat-grid-list>

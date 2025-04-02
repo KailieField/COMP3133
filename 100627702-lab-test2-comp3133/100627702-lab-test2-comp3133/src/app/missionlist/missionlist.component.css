@@ -1,0 +1,40 @@
+
+mat-card-tile a {
+    color: cyan;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+    border-color: cadetblue;
+}
+
+/* a:hover {
+    text-decoration: underline;
+} */
+
+/* ul {
+    padding-left: 20px;
+} */
+
+mat-grid-tile {
+    display: flex;
+}
+
+mat-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 12px;
+
+}
+
+.mission-card{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 2px solid #00e5ff;
+    border-radius: 12px;
+    box-sizing: border-box;
+}

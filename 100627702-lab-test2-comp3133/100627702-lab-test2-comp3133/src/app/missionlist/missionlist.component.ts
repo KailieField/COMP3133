@@ -5,11 +5,23 @@ import { RouterModule } from '@angular/router';
 import { MissionfilterComponent } from '../missionfilter/missionfilter.component';
 import { Mission } from '../model/interface.model'
 import { MaterialModule } from '../material/material.module';
+import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @Component({
   selector: 'app-missionlist',
   standalone: true,
-  imports: [CommonModule, NgForOf, NgIf, RouterModule, MissionfilterComponent],
+  imports: [
+    CommonModule, 
+    NgForOf, 
+    NgIf, 
+    RouterModule, 
+    MissionfilterComponent,
+    MatCardModule,
+    MatGridListModule,
+    MaterialModule
+  ],
+
   templateUrl: './missionlist.component.html',
   styleUrls: ['./missionlist.component.css']
 })
