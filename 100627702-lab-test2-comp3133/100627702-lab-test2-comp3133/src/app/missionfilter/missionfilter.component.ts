@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -12,12 +12,14 @@ import { FormsModule } from '@angular/forms';
 
 export class MissionfilterComponent {
   
-  year: string='';
+  filteredYear: string='';
 
-  filterMissionList(){
+  @Output() inputYear = new EventEmitter<string>();
 
-    console.log('FILTER -- (YEAR): ', this.year);
-    
+  filterMissionList() {
+    this.inputYear.emit(this.filteredYear);
   }
-
+    
 }
+
+

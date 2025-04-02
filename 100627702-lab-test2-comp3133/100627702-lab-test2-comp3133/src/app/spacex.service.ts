@@ -17,4 +17,8 @@ export class SpacexService {
   getLaunches(): Observable<any[]>{
     return this.http.get<any[]>(this.apiUrl);
   }
+
+  getLaunchesByUrl(url: string): Observable<any[]> {
+    return this.http.get<any[]>(url);
+  }
 }

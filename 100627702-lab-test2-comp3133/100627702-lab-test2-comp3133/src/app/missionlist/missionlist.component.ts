@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule, NgForOf, NgIf } from '@angular/common';
 import { SpacexService } from '../spacex.service';
 
@@ -10,14 +10,16 @@ import { SpacexService } from '../spacex.service';
   styleUrls: ['./missionlist.component.css']
 })
 
-export class MissionlistComponent implements OnInit{
+export class MissionlistComponent implements OnInit, OnChanges{
 
   launches: any[] = [];
+
+  @Input() filteredYear: string='';
 
   constructor(private spacexService: SpacexService){}
 
   ngOnInit(): void {
-      alert('ngOnInit is running');
+
         this.spacexService.getLaunches().subscribe({
           next: (data) => {
             console.log('DATA RECEIVED: ', data);
@@ -30,4 +32,22 @@ export class MissionlistComponent implements OnInit{
           }
       });
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+      if (changes['filteredYear'] && this.filteredYear) {
+        const url = `https://api.spacexdata.com/v3/launches?launch_year=${this.filteredYear}`;
+        this.spacexService.getLaunchesByUrl(url).subscribe({
+
+          next: (data) => {
+            console.log(`LAUNCHES --- ${this.filteredYear}: `, data);
+            this.launches = data;
+          },
+          
+          error: (err) => {
+            console.error(`API CALL FOR ${this.filteredYear} FAILED: `, err);
+          }
+
+        });
+      }
+    }
 }

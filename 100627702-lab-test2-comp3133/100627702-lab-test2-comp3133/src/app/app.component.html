@@ -1,2 +1,5 @@
-<app-missionlist></app-missionlist>
-<app-missionfilter></app-missionfilter>
+<h3>.::[ MISSION FILTER --- LAUNCH YEAR ]::.</h3>
+
+<app-missionlist [filteredYear]="filteredYear"></app-missionlist>
+
+<app-missionfilter (inputYear)="updateYearFromFilter($event)"></app-missionfilter>

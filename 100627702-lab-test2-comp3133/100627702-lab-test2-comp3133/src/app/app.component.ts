@@ -12,4 +12,10 @@ import { MissionfilterComponent } from './missionfilter/missionfilter.component'
 })
 export class AppComponent {
   title = '100627702-lab-test2-comp3133';
+
+  filteredYear: string='';
+
+  updateYearFromFilter(year: string){
+    this.filteredYear = year;
+  }
 }
