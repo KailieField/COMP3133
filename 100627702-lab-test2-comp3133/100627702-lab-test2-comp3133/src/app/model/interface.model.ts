@@ -17,7 +17,7 @@ export interface Mission{
 
         mission_patch_small: string;
         article_link: string;
-        wikepedia: string;
+        wikipedia: string;
         video_link: string;
     };
 }

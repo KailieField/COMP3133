@@ -3,6 +3,7 @@ import { CommonModule, NgForOf, NgIf } from '@angular/common';
 import { SpacexService } from '../spacex.service';
 import { RouterModule } from '@angular/router';
 import { MissionfilterComponent } from '../missionfilter/missionfilter.component';
+import { Mission } from '../model/interface.model'
 
 @Component({
   selector: 'app-missionlist',
@@ -14,7 +15,7 @@ import { MissionfilterComponent } from '../missionfilter/missionfilter.component
 
 export class MissionlistComponent implements OnInit {
 
-  launches: any[] = [];
+  launches: Mission[] = [];
 
   // @Input() filteredYear: string='';
   filteredYear: string='';
