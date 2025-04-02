@@ -34,6 +34,9 @@ export class MissionlistComponent implements OnInit, OnChanges{
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+
+    console.log('ngOnChanges triggered: ', changes);
+    
       if (changes['filteredYear'] && this.filteredYear) {
         const url = `https://api.spacexdata.com/v3/launches?launch_year=${this.filteredYear}`;
         this.spacexService.getLaunchesByUrl(url).subscribe({

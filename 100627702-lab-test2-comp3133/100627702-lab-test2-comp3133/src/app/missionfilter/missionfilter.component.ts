@@ -17,6 +17,7 @@ export class MissionfilterComponent {
   @Output() inputYear = new EventEmitter<string>();
 
   filterMissionList() {
+    console.log('Filter Button Click: ', this.filteredYear);
     this.inputYear.emit(this.filteredYear);
   }
     

@@ -16,6 +16,9 @@ export class AppComponent {
   filteredYear: string='';
 
   updateYearFromFilter(year: string){
+
+    console.log('Year component rcvd from filter component: ', year);
     this.filteredYear = year;
+    
   }
 }
