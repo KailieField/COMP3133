@@ -6,6 +6,9 @@ import { Component } from '@angular/core';
   templateUrl: './student.component.html',
   styleUrl: './student.component.css'
 })
+
 export class StudentsComponent {
+
+  title = "My List of Students";
 
 }
