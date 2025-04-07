@@ -6,8 +6,9 @@ import { StudentsComponent } from './students.component';
 
 @NgModule({
   declarations: [
+
     AppComponent,
-    StudentsComponent
+    StudentsComponent //<---- removing i am using Angular 19 by default and Node 23.7.0 which is NOT COMPATIBLE with the lab instructions
   ],
   imports: [
     BrowserModule,
