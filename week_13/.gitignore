@@ -1,0 +1,7 @@
+echo "ASCII Conversion Chart.gif" >> .gitignore
+echo "lab_submissions/" >> .gitignore
+echo "week_01/" >> .gitignore
+
+node_modules/
+.idea
+.env
